@@ -107,10 +107,10 @@ class ContractsFixture:
                 }
             },
             'settings': {
-                'remappings': [ 'ROOT=%s' % resolveRelativePath("../src") ]
-            },
-            'outputSelection': {
-                '*': [ 'metadata', 'evm.bytecode', 'evm.sourceMap' ]
+                'remappings': [ 'ROOT=%s' % resolveRelativePath("../src") ],
+                'outputSelection': {
+                    '*': [ 'metadata', 'evm.bytecode', 'evm.sourceMap' ]
+                }
             }
         }
         return compile_standard(compilerParameter, allow_paths=resolveRelativePath("../"))['contracts'][absoluteFilePath][contractName]

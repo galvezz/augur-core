@@ -28,18 +28,18 @@ contract CancelOrder is Controlled, ReentrancyGuard, ICancelOrder {
 
         // Look up the order the sender wants to cancel
         IOrders _orders = IOrders(controller.lookup("Orders"));
-        uint256 _fxpMoneyEscrowed = _orders.getOrderMoneyEscrowed(_orderId, _type, _market, _outcome);
-        uint256 _fxpSharesEscrowed = _orders.getOrderSharesEscrowed(_orderId, _type, _market, _outcome);
+        uint256 _fxpMoneyEscrowed = _orders.getOrderMoneyEscrowed(_orderId);
+        uint256 _fxpSharesEscrowed = _orders.getOrderSharesEscrowed(_orderId);
 
         // Check that the order ID is correct and that the sender owns the order
-        require(msg.sender == _orders.getOrderOwner(_orderId, _type, _market, _outcome));
+        require(msg.sender == _orders.getOrderOwner(_orderId));
 
         // Clear the order first
         _orders.removeOrder(_orderId, _type, _market, _outcome);
 
         refundOrder(msg.sender, _type, _fxpSharesEscrowed, _fxpMoneyEscrowed, _market, _outcome);
 
-        _orders.cancelOrderLog(_market, msg.sender, _orders.getPrice(_orderId, _type, _market, _outcome), _orders.getAmount(_orderId, _type, _market, _outcome), _orderId, _outcome, _type, _fxpMoneyEscrowed, _fxpSharesEscrowed);
+        _orders.cancelOrderLog(_market, msg.sender, _orders.getPrice(_orderId), _orders.getAmount(_orderId), _orderId, _outcome, _type, _fxpMoneyEscrowed, _fxpSharesEscrowed);
 
         return true;
     }
